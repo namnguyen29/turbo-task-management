@@ -2,35 +2,34 @@
 
 ## Project Structure & Module Organization
 
-This pnpm workspace is managed by Turborepo. Application code lives in `apps/`:
+This pnpm 11 workspace is orchestrated with Turborepo. Application code is in `apps/`:
 
-- `apps/web/` and `apps/docs/` are Next.js App Router applications. Routes, layouts, and styles belong in each app's `app/` directory; static files belong in `public/`.
-- `packages/ui/` contains shared React components. Import them through package exports, for example `@repo/ui/button`.
-- `packages/eslint-config/` and `packages/typescript-config/` centralize lint and TypeScript settings. Change these deliberately because they affect every workspace.
+- `apps/api/` is the NestJS API. Source files are in `src/`; unit tests use `*.spec.ts` beside source files and end-to-end tests live in `test/`.
+- `apps/web/` is the Angular client. Feature code belongs in `src/app/`, with page and layout files grouped by feature (for example, `pages/home-page/`). Global styles are in `src/styles.scss`.
+- `apps/docs/` is the Next.js documentation app; routes and layouts are in `app/`, while static assets are in `public/`.
+- `packages/ui/` contains shared React UI components, and `packages/eslint-config/` and `packages/typescript-config/` provide workspace-wide configuration.
 
-Keep app-specific code in its app and promote components to `@repo/ui` only when they are genuinely reusable.
+Keep code application-specific until it is genuinely reusable. Use workspace imports such as `@repo/ui/button` for exported shared UI.
 
 ## Build, Test, and Development Commands
 
-Use Node.js 18+ and pnpm 9 (as declared in `package.json`). From the repository root:
+Run commands from the repository root:
 
-- `pnpm install` installs workspace dependencies.
-- `pnpm dev` starts development tasks across workspaces; use `pnpm --filter web dev` for only the web app (port 3000).
-- `pnpm build` builds all packages and apps in dependency order.
-- `pnpm lint` runs ESLint with warnings treated as failures.
-- `pnpm check-types` runs framework type generation and TypeScript checks.
-- `pnpm format` applies Prettier to `*.ts`, `*.tsx`, and `*.md` files.
-
-Run `pnpm lint` and `pnpm check-types` before opening a pull request; run `pnpm build` when changing build, configuration, or cross-package code.
+- `pnpm install` installs all workspace dependencies (Node.js `>=20.19.0`).
+- `pnpm dev` starts all development tasks; use `pnpm --filter api dev` or `pnpm --filter web dev` for one app.
+- `pnpm build` builds workspace packages in dependency order.
+- `pnpm lint` runs configured lint tasks, and `pnpm check-types` runs available type checks.
+- `pnpm --filter api test` runs Nest unit tests; add `test:e2e` for API end-to-end tests. `pnpm --filter web test` runs Angular tests.
+- `pnpm format` applies Prettier to TypeScript, TSX, and Markdown files.
 
 ## Coding Style & Naming Conventions
 
-Write TypeScript and React function components. Follow Prettier's output (two-space indentation, semicolons, and double quotes) rather than manually aligning code. Use PascalCase for React components and their files (for example `Button` in `button.tsx` follows the existing export convention), camelCase for variables/functions, and `*.module.css` for component-scoped styles. Prefer `type` for simple aliases and keep prop interfaces close to their components.
+Use TypeScript and follow Prettier output: two-space indentation, semicolons, and double quotes unless an app-specific formatter configuration says otherwise. Use `camelCase` for functions and variables; use clear, feature-oriented folders. Angular components follow the existing `name.ts`, `name.html`, `name.scss`, and `name.spec.ts` pattern. Nest tests use `*.spec.ts`. Keep exported shared React components in the established lowercase package filenames, such as `packages/ui/src/button.tsx`.
 
 ## Testing Guidelines
 
-No automated test runner or coverage threshold is currently configured. For every change, run linting and type checks, and manually verify the affected app with `pnpm --filter <app> dev`. If adding tests, colocate them with the relevant feature and add the runner and its command to the root scripts and this guide.
+Add or update tests with behavior changes. Keep Nest unit tests next to the implementation and API integration tests in `apps/api/test/`. Keep Angular specs next to their components/pages. No coverage threshold is configured; run the relevant test command, linting, and type checks before submitting changes.
 
 ## Commit & Pull Request Guidelines
 
-History currently contains only short `first commit` messages, so no established convention exists. Use concise, imperative subjects such as `Add task status filter`; keep commits focused. Pull requests should explain the change and verification performed, link related issues when available, and include screenshots or recordings for visible UI changes.
+Git history currently has only `first commit`, so use concise imperative subjects such as `Add task status filter`. Keep commits focused. Pull requests should explain the change, link related issues, list verification performed, and include screenshots or recordings for visible UI updates.

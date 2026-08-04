@@ -1,0 +1,15 @@
+{
+  "name": "@repo/models",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "check-types": "tsc --noEmit"
+  },
+  "exports": {
+    "./task.model": "./src/task.model.ts"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "typescript": "5.9.2"
+  }
+}
