@@ -1,4 +1,8 @@
-import type { FieldError } from './field-error.interface';
+export interface FieldError {
+  field: string;
+  code: string;
+  message: string;
+}
 
 export interface ApiErrorResponse {
   statusCode: number;

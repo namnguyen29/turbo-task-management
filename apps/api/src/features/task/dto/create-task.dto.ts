@@ -1,5 +1,5 @@
+import { CreateTaskInput } from '@repo/types/task';
 import { IsBoolean, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
-import type { CreateTaskInput } from '../task.interface';
 
 export class CreateTaskDto implements CreateTaskInput {
   @IsString()

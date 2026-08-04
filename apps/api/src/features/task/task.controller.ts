@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { TaskService } from './task.service';
-import type { Task } from './task.interface';
+import type { Task } from '@repo/types/task';
 
 @Controller('tasks')
 export class TaskController {

@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import type { Task } from './task.interface';
+import type { Task } from '@repo/types/task';
 
 @Injectable()
 export class TaskService {
