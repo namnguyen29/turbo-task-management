@@ -8,7 +8,6 @@ import { DestroyRef, Component, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { filter, startWith } from 'rxjs';
-import type { Task } from '@repo/models/task.model';
 
 @Component({
   selector: 'app-main-layout',
@@ -33,18 +32,8 @@ export class MainLayout {
   public readonly isHandset = signal(false);
   public readonly pageTitle = signal('Task Management');
   public readonly sidebarOpen = signal(true);
-  public readonly task = signal<Task>({
-    id: '1',
-    title: 'Task 1',
-    description: 'Description 1',
-    completed: false,
-    createdAt: '2022-01-01',
-    updatedAt: '2022-01-01',
-  });
 
   constructor() {
-    console.log(this.task());
-
     this.breakpointObserver
       .observe('(max-width: 767px)')
       .pipe(takeUntilDestroyed(this.destroyRef))
