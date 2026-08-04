@@ -1,0 +1,66 @@
+.app-shell {
+  min-height: 100dvh;
+  background: var(--mat-sys-surface-container-low);
+}
+
+.sidebar {
+  width: 16rem;
+  border-right: 1px solid var(--mat-sys-outline-variant);
+}
+
+.sidebar-content {
+  padding: 0.75rem;
+}
+
+.brand {
+  padding: 0.75rem 0.5rem 1.25rem;
+  color: var(--mat-sys-primary);
+  font: var(--mat-sys-title-large);
+  font-weight: 700;
+}
+
+.sidebar mat-nav-list {
+  padding: 0;
+}
+
+.sidebar a[mat-list-item] {
+  margin: 0.25rem 0;
+  border-radius: 0.5rem;
+}
+
+.sidebar a.active-link {
+  background: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
+  font-weight: 600;
+}
+
+.content-area {
+  min-height: 100dvh;
+}
+
+.page-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  gap: 0.75rem;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  background: var(--mat-sys-surface);
+}
+
+.page-title {
+  font: var(--mat-sys-title-large);
+  background-color: var(--color-main-background);
+}
+
+.page-content {
+  box-sizing: border-box;
+  width: min(100%, 90rem);
+  margin: 0 auto;
+  padding: clamp(1rem, 3vw, 2rem);
+}
+
+@media screen and (max-width: 767px) {
+  .sidebar {
+    width: min(17rem, 85vw);
+  }
+}

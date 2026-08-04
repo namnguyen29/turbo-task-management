@@ -1,0 +1,41 @@
+<mat-sidenav-container class="app-shell">
+  <mat-sidenav
+    class="sidebar"
+    [mode]="isHandset() ? 'over' : 'side'"
+    [opened]="sidebarOpen()"
+    (closed)="sidebarOpen.set(false)"
+  >
+    <div class="sidebar-content">
+      <div class="brand">Task Manager</div>
+
+      <mat-nav-list aria-label="Main navigation">
+        <a
+          mat-list-item
+          routerLink="/home"
+          routerLinkActive="active-link"
+          (click)="closeSidebarOnHandset()"
+        >
+          Dashboard
+        </a>
+      </mat-nav-list>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="content-area">
+    <mat-toolbar class="page-header">
+      <button
+        mat-icon-button
+        type="button"
+        aria-label="Toggle navigation"
+        (click)="toggleSidebar()"
+      >
+        <mat-icon aria-hidden="true">menu</mat-icon>
+      </button>
+      <span class="page-title">{{ pageTitle() }}</span>
+    </mat-toolbar>
+
+    <main class="page-content">
+      <router-outlet />
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
