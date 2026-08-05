@@ -1,5 +1,5 @@
+import { UpdateTaskInput } from '@repo/types/task';
 import { IsBoolean, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
-import type { UpdateTaskInput } from '../task.interface';
 
 export class UpdateTaskDto implements UpdateTaskInput {
   @IsOptional()

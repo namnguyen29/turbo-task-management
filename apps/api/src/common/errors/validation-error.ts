@@ -1,7 +1,5 @@
 import { BadRequestException, HttpStatus, type ValidationError } from '@nestjs/common';
-import type { ApiErrorResponse } from './api-error-response.interface';
-import type { FieldError } from './field-error.interface';
-
+import type { ApiErrorResponse, FieldError } from '@repo/types/error';
 export function createValidationException(validationErrors: ValidationError[]): BadRequestException {
   const response: ApiErrorResponse = {
     statusCode: HttpStatus.BAD_REQUEST,
