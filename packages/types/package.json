@@ -7,7 +7,7 @@
     "./error": "./src/error/index.ts"
   },
   "scripts": {
-    "type-check": "npx tsc --noEmit"
+    "check-types": "tsc --noEmit"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
