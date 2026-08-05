@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import request from 'supertest';
 import { App } from 'supertest/types';
 import { AppModule } from './../src/app.module';
-import { createValidationException } from './../src/common/errors/validation-error.factory';
+import { createValidationException } from './../src/common/errors/validation-error';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication<App>;
@@ -26,10 +28,7 @@ describe('AppController (e2e)', () => {
   });
 
   it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+    return request(app.getHttpServer()).get('/').expect(200).expect('Hello World!');
   });
 
   it('/tasks supports the CRUD flow', async () => {
@@ -66,32 +65,20 @@ describe('AppController (e2e)', () => {
       createdAt: createdTask.body.createdAt,
     });
 
-    await request(app.getHttpServer())
-      .delete(`/tasks/${createdTask.body.id}`)
-      .expect(204);
+    await request(app.getHttpServer()).delete(`/tasks/${createdTask.body.id}`).expect(204);
 
-    const remainingTasks = await request(app.getHttpServer())
-      .get('/tasks')
-      .expect(200);
-    expect(remainingTasks.body).not.toContainEqual(
-      expect.objectContaining({ id: createdTask.body.id }),
-    );
+    const remainingTasks = await request(app.getHttpServer()).get('/tasks').expect(200);
+    expect(remainingTasks.body).not.toContainEqual(expect.objectContaining({ id: createdTask.body.id }));
   });
 
   it('/tasks/:id returns 404 for a task that does not exist', async () => {
-    await request(app.getHttpServer())
-      .patch('/tasks/unknown')
-      .send({ completed: true })
-      .expect(404);
+    await request(app.getHttpServer()).patch('/tasks/unknown').send({ completed: true }).expect(404);
 
     await request(app.getHttpServer()).delete('/tasks/unknown').expect(404);
   });
 
   it('/tasks rejects invalid and non-whitelisted input', async () => {
-    const missingTitle = await request(app.getHttpServer())
-      .post('/tasks')
-      .send({ completed: false })
-      .expect(400);
+    const missingTitle = await request(app.getHttpServer()).post('/tasks').send({ completed: false }).expect(400);
 
     expect(missingTitle.body).toMatchObject({
       statusCode: 400,
@@ -101,7 +88,7 @@ describe('AppController (e2e)', () => {
         {
           field: 'title',
           code: 'IS_STRING',
-          message: 'Should be string',
+          message: 'title must be a string',
         },
       ]),
     });
@@ -119,12 +106,12 @@ describe('AppController (e2e)', () => {
         {
           field: 'title',
           code: 'IS_STRING',
-          message: 'Should be string',
+          message: 'title must be a string',
         },
         {
           field: 'completed',
           code: 'IS_BOOLEAN',
-          message: 'Should be boolean',
+          message: 'completed must be a boolean value',
         },
       ]),
     });
@@ -158,15 +145,9 @@ describe('AppController (e2e)', () => {
       })
       .expect(400);
 
-    await request(app.getHttpServer())
-      .patch('/tasks/1')
-      .send({ completed: 'yes' })
-      .expect(400);
+    await request(app.getHttpServer()).patch('/tasks/1').send({ completed: 'yes' }).expect(400);
 
-    await request(app.getHttpServer())
-      .patch('/tasks/1')
-      .send({ id: 'custom-id' })
-      .expect(400);
+    await request(app.getHttpServer()).patch('/tasks/1').send({ id: 'custom-id' }).expect(400);
   });
 
   afterEach(async () => {
