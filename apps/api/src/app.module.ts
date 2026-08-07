@@ -1,11 +1,19 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { validateEnvironment } from './config/validate-environment';
 import { TaskModule } from './features/task/task.module';
 
 @Module({
-  imports: [TaskModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: ['apps/api/.env'],
+      validate: validateEnvironment,
+    }),
+    TaskModule,
+  ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [],
 })
 export class AppModule {}
