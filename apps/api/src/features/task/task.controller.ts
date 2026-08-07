@@ -14,6 +14,12 @@ export class TaskController {
     return this.taskService.findAll();
   }
 
+  @Get(':id')
+  @HttpCode(HttpStatus.OK)
+  public findById(@Param('id') id: string): Task {
+    return this.taskService.findById(id);
+  }
+
   @Post()
   @HttpCode(HttpStatus.CREATED)
   public create(@Body() dto: CreateTaskDto): Task {

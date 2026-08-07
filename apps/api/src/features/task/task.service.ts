@@ -30,7 +30,7 @@ export class TaskService {
       updatedAt: timestamp,
     };
 
-    this.tasks.push(task);
+    this.tasks = [...this.tasks, task];
     return task;
   }
 
@@ -52,7 +52,7 @@ export class TaskService {
     this.tasks = this.tasks.filter((task) => task.id !== id);
   }
 
-  private findById(id: string): Task {
+  public findById(id: string): Task {
     const task = this.tasks.find((currentTask) => currentTask.id === id);
 
     if (!task) {
