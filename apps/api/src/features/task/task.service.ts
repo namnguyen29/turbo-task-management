@@ -36,9 +36,10 @@ export class TaskService {
 
   public update(id: string, dto: UpdateTaskDto): Task {
     const task = this.findById(id);
+    const changes = Object.fromEntries(Object.entries(dto).filter(([, value]) => value !== undefined));
     const updatedTask: Task = {
       ...task,
-      ...dto,
+      ...changes,
       updatedAt: new Date().toISOString(),
     };
 
