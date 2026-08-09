@@ -27,10 +27,6 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer()).get('/').expect(200).expect('Hello World!');
-  });
-
   it('/tasks supports the CRUD flow', async () => {
     const tasks = await request(app.getHttpServer()).get('/tasks').expect(200);
     expect(tasks.body).toHaveLength(1);

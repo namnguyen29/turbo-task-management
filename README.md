@@ -2,14 +2,6 @@
 
 A TypeScript task-management monorepo with an Angular web app and a NestJS API.
 
-## Using this example
-
-Run the following command:
-
-```sh
-npx create-turbo@latest
-```
-
 ## What's inside?
 
 This Turborepo includes the following packages/apps:
@@ -39,14 +31,14 @@ To build all apps and packages, run the following command:
 With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
 
 ```sh
-cd my-turborepo
+cd turbo-task-management
 turbo build
 ```
 
 Without global `turbo`, use your package manager:
 
 ```sh
-cd my-turborepo
+cd turbo-task-management
 npx turbo build
 pnpm dlx turbo build
 pnpm exec turbo build
@@ -63,9 +55,9 @@ turbo build --filter=docs
 Without global `turbo`:
 
 ```sh
-npx turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+npx turbo build --filter=web
+pnpm exec turbo build --filter=web
+pnpm exec turbo build --filter=web
 ```
 
 ### Develop
@@ -75,14 +67,14 @@ To develop all apps and packages, run the following command:
 With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
 
 ```sh
-cd my-turborepo
+cd turbo-task-management
 turbo dev
 ```
 
 Without global `turbo`, use your package manager:
 
 ```sh
-cd my-turborepo
+cd turbo-task-management
 npx turbo dev
 pnpm exec turbo dev
 pnpm exec turbo dev
@@ -116,14 +108,14 @@ By default, Turborepo will cache locally. To enable Remote Caching you will need
 With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
 
 ```sh
-cd my-turborepo
+cd turbo-task-management
 turbo login
 ```
 
 Without global `turbo`, use your package manager:
 
 ```sh
-cd my-turborepo
+cd turbo-task-management
 npx turbo login
 pnpm exec turbo login
 pnpm exec turbo login

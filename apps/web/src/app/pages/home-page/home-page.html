@@ -16,7 +16,7 @@
       <ul>
         @for (task of tasks; track task.id) {
           <li [class.completed]="task.completed">
-            {{ task.title ?? 'Untitled task' }}
+            {{ task.title }}
           </li>
         }
       </ul>

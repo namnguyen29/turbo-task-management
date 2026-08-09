@@ -2,13 +2,13 @@
   "name": "web",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "dev": "ng serve",
-    "start": "ng serve",
     "build": "ng build",
     "lint": "eslint .",
-    "watch": "ng build --watch --configuration development",
+    "dev": "ng serve",
     "test": "ng test --no-watch --no-progress --browsers=ChromeHeadless",
+    "ng": "ng",
+    "start": "ng serve",
+    "watch": "ng build --watch --configuration development",
     "test:watch": "ng test",
     "check-types": "tsc --noEmit"
   },
