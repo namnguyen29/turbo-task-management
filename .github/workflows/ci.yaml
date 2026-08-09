@@ -25,6 +25,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v6
@@ -41,5 +43,16 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Check affected packages
+        env:
+          TURBO_SCM_BASE: ${{ github.event_name == 'pull_request' &&
+            github.event.pull_request.base.sha ||
+            github.event.before }}
+        run: pnpm exec turbo ls --affected
+
       - name: Run CI tasks
-        run: pnpm exec turbo run lint test build
+        env:
+          TURBO_SCM_BASE: ${{ github.event_name == 'pull_request' &&
+            github.event.pull_request.base.sha ||
+            github.event.before }}
+        run: pnpm exec turbo run lint test build --affected
