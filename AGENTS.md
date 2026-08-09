@@ -4,34 +4,33 @@
 
 This pnpm/Turborepo workspace contains two applications and shared packages:
 
-- `apps/web/`: Angular frontend. Application code lives in `src/app/`; styles and static files are in `src/` and `public/`.
-- `apps/api/`: NestJS backend. Organize domain work under `src/features/<feature>/`; keep DTOs in a feature's `dto/` directory and shared error handling in `src/common/`.
-- `packages/types/`: shared TypeScript contracts, currently organized by domain (for example, `src/task/`).
-- `packages/typescript-config/` and `packages/eslint-config/`: reusable tooling configuration.
-- `tickets/`: implementation notes and task specifications; treat these as useful context when changing the related feature.
+- `apps/web/` is the Angular frontend: pages in `src/app/pages/`, layouts in `layouts/`, API clients in `apis/`, and shared services in `shared/`.
+- `apps/api/` is the NestJS backend. Keep feature code under `src/features/<feature>/`; shared errors and configuration are in `src/common/` and `src/config/`.
+- `packages/types/` exports cross-application TypeScript contracts. `packages/eslint-config/` and `packages/typescript-config/` centralize tooling configuration.
+- API end-to-end tests are in `apps/api/test/`; unit tests sit next to source files as `*.spec.ts`.
 
 ## Build, Test, and Development Commands
 
 Use Node 20.19+ and pnpm 11.
 
-- `pnpm dev`: run development tasks across the workspace through Turbo.
-- `pnpm build`: build every workspace package and application.
-- `pnpm lint`: run configured lint tasks across the workspace.
-- `pnpm check-types`: run workspace type-check tasks where available.
-- `pnpm --filter api test`: run NestJS/Jest unit tests.
-- `pnpm --filter api test:e2e`: run API end-to-end tests.
-- `pnpm --filter web test`: run Angular's Jasmine/Karma test suite.
-
-For focused local work, use `pnpm --filter web dev` or `pnpm --filter api dev`.
+- `pnpm dev` starts all workspace development tasks through Turborepo.
+- `pnpm --filter web dev` or `pnpm --filter api dev` starts one application.
+- `pnpm build`, `pnpm lint`, `pnpm test`, and `pnpm check-types` run the corresponding task across the workspace.
+- `pnpm test:e2e` runs E2E tasks; use `pnpm --filter api test:e2e` for the API suite.
+- `pnpm format` applies root Prettier formatting to TypeScript, TSX, and Markdown files.
 
 ## Coding Style & Naming Conventions
 
-Write TypeScript throughout. Follow Prettier formatting: the web app uses single quotes and 100-column wrapping; the API ESLint/Prettier configuration enforces up to 120 columns. Run `pnpm format` for Markdown and TypeScript formatting. Use kebab-case for files and folders (`create-task.dto.ts`, `home-page/`), PascalCase for classes and interfaces, and camelCase for values. Keep Angular component files paired as `.ts`, `.html`, `.scss`, and `.spec.ts`.
+Write TypeScript, formatted with Prettier (100-column width and single quotes in the web app). Use ESLint before submitting changes. Use lower-kebab directory names, such as `home-page` and `welcome-modal`, and role-based files (`task.service.ts`, `create-task.dto.ts`). Keep Angular templates and styles beside their component `.ts` file. Organize API code into feature modules, controllers, services, and DTOs.
 
 ## Testing Guidelines
 
-Place unit tests beside the implementation as `*.spec.ts`. API tests use Jest and `@nestjs/testing`; browser tests use Jasmine/Karma. Cover success paths, validation failures, and error responses when changing API behavior. Run the relevant app test command before submitting; use `pnpm --filter api test:cov` when checking backend coverage. No repository-wide coverage threshold is currently configured.
+Angular tests use Jasmine/Karma and API tests use Jest; both expect `*.spec.ts`. Add or update focused unit tests with behavior changes. Run `pnpm --filter web test` for headless frontend tests and `pnpm --filter api test` for backend unit tests. Run API E2E tests when changing endpoints, validation, or server configuration. No coverage threshold is configured; retain meaningful coverage for changed paths.
 
 ## Commit & Pull Request Guidelines
 
-Recent history uses concise, lowercase Conventional Commit-style subjects, such as `feature: add task package` and `feature: add task crud apis (#2)`. Use that pattern and keep each commit focused. Pull requests should explain the user-visible or API impact, link the relevant issue or ticket, list validation commands run, and include screenshots for web UI changes. Note migrations, configuration changes, or follow-up work explicitly.
+Recent commits use concise imperative Conventional-Commit-style subjects, for example `feat: add web modal service`. Keep commits focused and include the affected area when helpful. Pull requests should explain the change and validation performed, link the relevant issue when applicable, and include screenshots for visible web UI changes. Ensure linting, tests, type checks, and build pass before review.
+
+## Configuration & Security
+
+Do not commit credentials or `.env` files. The API validates environment configuration at startup; document required variables and provide safe development defaults. Remote Turborepo caching uses `TURBO_TOKEN` and `TURBO_TEAM` CI secrets.
