@@ -1,7 +1,8 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { Task } from '@repo/types/task';
 
+import { TaskApi } from '../../apis/task.api';
 import { WelcomeModal } from './components/welcome-modal/welcome-modal';
 import { ModalService } from '../../shared/services/modal.service';
 
@@ -11,26 +12,31 @@ import { ModalService } from '../../shared/services/modal.service';
   templateUrl: './home-page.html',
   styleUrl: './home-page.scss',
 })
-export class HomePage {
+export class HomePage implements OnInit {
   private readonly modalService = inject(ModalService);
-  public readonly tasks = signal<Task[]>([
-    {
-      id: '1',
-      title: 'Buy groceries',
-      completed: false,
-      createdAt: '',
-      updatedAt: '',
-    },
-    {
-      id: '2',
-      title: 'Walk the dog',
-      completed: true,
-      createdAt: '',
-      updatedAt: '',
-    },
-  ]);
-
+  private readonly taskApi = inject(TaskApi);
+  public readonly tasks = signal<Task[]>([]);
+  public readonly isLoadingTasks = signal(true);
+  public readonly tasksError = signal<string | null>(null);
   public readonly modalResult = signal<string>('');
+
+  ngOnInit(): void {
+    this.loadTasks();
+  }
+
+  public loadTasks(): void {
+    this.isLoadingTasks.set(true);
+    this.tasksError.set(null);
+
+    this.taskApi.getTasks().subscribe({
+      next: (tasks) => this.tasks.set(tasks),
+      error: () => {
+        this.tasksError.set('Unable to load tasks. Please try again.');
+        this.isLoadingTasks.set(false);
+      },
+      complete: () => this.isLoadingTasks.set(false),
+    });
+  }
 
   public openWelcomeModal(): void {
     this.modalService
