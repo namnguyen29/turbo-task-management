@@ -1,6 +1,6 @@
-# Turborepo starter
+# Turbo Task Management
 
-This Turborepo starter is maintained by the Turborepo core team.
+A TypeScript task-management monorepo with an Angular web app and a NestJS API.
 
 ## Using this example
 
@@ -19,6 +19,7 @@ This Turborepo includes the following packages/apps:
 - `web`: an [Angular](https://angular.dev/) app
 - `api`: a [NestJS](https://nestjs.com/) app
 - `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
+- `@repo/types`: shared types for the monorepo
 - `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
 
 Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
@@ -145,6 +146,31 @@ npx turbo link
 pnpm exec turbo link
 pnpm exec turbo link
 ```
+
+## CI
+
+This repository includes a GitHub Actions CI workflow. It runs linting, tests, and builds with Turborepo:
+
+- for pull requests targeting `main`;
+- for pushes to `main`.
+
+The workflow uses Vercel Remote Cache when the required repository secrets are configured.
+
+## Configure Vercel Remote Cache for CI
+
+The CI workflow reads `TURBO_TOKEN` and `TURBO_TEAM` from GitHub Actions secrets.
+
+1. In the Vercel Dashboard, select an existing team or create one from the team switcher. This is the team that will share the remote cache.
+2. With that team selected, note its slug from the dashboard URL (for example, `vercel.com/acme/...`). Use this slug as `TURBO_TEAM`.
+3. Switch to your personal Vercel account, then open **Settings** > **Tokens** and select **Create Token**. Scope the token to the chosen team and copy it immediately; Vercel will not show it again.
+4. In the GitHub repository, open **Settings** > **Secrets and variables** > **Actions** > **New repository secret**, then add:
+
+   | Secret        | Value                                 |
+   | ------------- | ------------------------------------- |
+   | `TURBO_TOKEN` | The Vercel access token created above |
+   | `TURBO_TEAM`  | The selected Vercel team's slug       |
+
+After both secrets are saved, GitHub Actions passes them to Turborepo and CI can share cached task artifacts with the team.
 
 ## Useful Links
 
