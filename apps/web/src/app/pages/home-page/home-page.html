@@ -1,6 +1,12 @@
 <section>
   <p>Welcome to your task management dashboard.</p>
 
+  <button matButton="filled" (click)="openWelcomeModal()">Open example modal</button>
+
+  @if (modalResult()) {
+    <p aria-live="polite">{{ modalResult() }}</p>
+  }
+
   <ul>
     @for (task of tasks(); track task.id) {
       <li [class.completed]="task.completed">
